@@ -1,0 +1,18 @@
+name = "geolocation-redirection"
+type = "javascript"
+
+account_id = "605a9d6cf8745592c079df4092260475"
+workers_dev = true
+route = ""
+zone_id = ""
+compatibility_date = "2021-12-29"
+
+[vars]
+BASE_URL = "https://opxyc.cf"
+
+[env.production.vars]
+BASE_URL = "https://opxyc.cf"
+
+[env.production]
+zone_id = "5d62e3104a124700cbe2ec79538b7792"
+route = "opxyc.cf/"
