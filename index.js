@@ -30,7 +30,7 @@ const middleEastCountries = {
     Uzbekistan: "UZ",
 };
 const MIDDLE_EAST_COUNTRY_CODES = Object.keys(middleEastCountries);
-const COOKIE_NAME = "__cf_redirected"
+const COOKIE_NAME = "_redirect_to"
 
 const getPrefix = (request) => {
     const countryCode = request?.cf?.country;
@@ -50,7 +50,7 @@ const getPrefix = (request) => {
     return prefix;
 };
 
-function handleRequest(request) {
+async function handleRequest(request) {
     const cookie = request.headers.get("Cookie")
     if (cookie !== null && cookie.includes(`${COOKIE_NAME}=true`)) {
         return fetch(request);
@@ -67,13 +67,11 @@ function handleRequest(request) {
 
     pathname = pathname.replace("/", prefix);
     const destinationURL = base + pathname + search + hash;
-    return new Response(null, {
-	  status: 301,
-	  headers: {
-          'Location': destinationURL,
-		  'Set-Cookie': `${COOKIE_NAME}=true`
-	  }
-    })
+
+    let response = await fetch(request)
+    response = new Response(response.body, response)
+    response.headers.set("Set-Cookie", `${COOKIE_NAME}=${destinationURL}`)
+    return response
 }
 
 addEventListener("fetch", async (event) => {
