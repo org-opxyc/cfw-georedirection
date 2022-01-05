@@ -1,4 +1,3 @@
-const base = BASE_URL;
 const middleEastCountries = {
     // Always included
     Bahrain: "BH",
@@ -57,7 +56,7 @@ async function handleRequest(request) {
     }
 
     const url = new URL(request.url);
-    let { pathname, search, hash } = url;
+    let { hostname, pathname, search, hash } = url;
     const prefix = getPrefix(request);
     // if there is no need of a prefix or if the required prefix
     // is present in the pathname, simply fetch
@@ -66,7 +65,7 @@ async function handleRequest(request) {
     }
 
     pathname = pathname.replace("/", prefix);
-    const destinationURL = base + pathname + search + hash;
+    const destinationURL = "https://" + hostname + pathname + search + hash;
 
     let response = await fetch(request)
     response = new Response(response.body, response)
